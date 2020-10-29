@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import org.marproject.makanankhasindonesia.R
-import org.marproject.makanankhasindonesia.core.data.source.local.entity.FoodEntity
+import org.marproject.makanankhasindonesia.core.domain.model.Food
 import org.marproject.makanankhasindonesia.core.ui.ViewModelFactory
 import org.marproject.makanankhasindonesia.databinding.ActivityDetailFoodBinding
 
@@ -29,7 +29,7 @@ class DetailFoodActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, factory)[DetailFoodViewModel::class.java]
 
         // get data intent
-        val food = intent.getParcelableExtra<FoodEntity>(EXTRA_DATA)
+        val food = intent.getParcelableExtra<Food>(EXTRA_DATA)
 
         // init ui
         initUI(food)
@@ -37,7 +37,7 @@ class DetailFoodActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    private fun initUI(food: FoodEntity?) {
+    private fun initUI(food: Food?) {
         food?.let {
             supportActionBar?.apply {
                 title = food.name

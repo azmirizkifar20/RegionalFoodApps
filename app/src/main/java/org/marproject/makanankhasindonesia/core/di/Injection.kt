@@ -5,6 +5,8 @@ import org.marproject.makanankhasindonesia.core.data.FoodRepository
 import org.marproject.makanankhasindonesia.core.data.source.local.LocalDataSource
 import org.marproject.makanankhasindonesia.core.data.source.local.room.FoodDatabase
 import org.marproject.makanankhasindonesia.core.data.source.remote.RemoteDataSource
+import org.marproject.makanankhasindonesia.core.domain.usecase.FoodInteractor
+import org.marproject.makanankhasindonesia.core.domain.usecase.FoodUseCase
 import org.marproject.makanankhasindonesia.core.utils.AppExecutors
 import org.marproject.makanankhasindonesia.core.utils.JsonHelper
 
@@ -18,5 +20,10 @@ object Injection {
         val appExecutors = AppExecutors()
 
         return FoodRepository.getInstance(remoteDataSource, localDataSource, appExecutors)
+    }
+
+    fun provideFoodUseCase(context: Context): FoodUseCase {
+        val repository = provideRepository(context)
+        return FoodInteractor(repository)
     }
 }

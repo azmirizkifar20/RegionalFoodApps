@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_favorite.*
 import kotlinx.android.synthetic.main.item_favorite.view.*
 import org.marproject.makanankhasindonesia.R
-import org.marproject.makanankhasindonesia.core.data.source.local.entity.FoodEntity
+import org.marproject.makanankhasindonesia.core.domain.model.Food
 import org.marproject.makanankhasindonesia.core.ui.ViewModelFactory
 import org.marproject.makanankhasindonesia.core.ui.adapter.AdapterCallback
 import org.marproject.makanankhasindonesia.core.ui.adapter.AdapterUtils
@@ -27,7 +27,7 @@ class FavoriteFragment : Fragment() {
     private val binding get() = _binding!!
 
     // adapter
-    private lateinit var adapter: AdapterUtils<FoodEntity>
+    private lateinit var adapter: AdapterUtils<Food>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,8 +60,8 @@ class FavoriteFragment : Fragment() {
             .build(recyclerView)
     }
 
-    private val adapterCallback = object : AdapterCallback<FoodEntity> {
-        override fun initComponent(itemView: View, data: FoodEntity, itemIndex: Int) {
+    private val adapterCallback = object : AdapterCallback<Food> {
+        override fun initComponent(itemView: View, data: Food, itemIndex: Int) {
             itemView.tv_name.text = data.name
             itemView.tv_place.text = data.place
             Glide.with(requireContext())
@@ -69,7 +69,7 @@ class FavoriteFragment : Fragment() {
                 .into(itemView.image_food)
         }
 
-        override fun onItemClicked(itemView: View, data: FoodEntity, itemIndex: Int) {
+        override fun onItemClicked(itemView: View, data: Food, itemIndex: Int) {
             startActivity(
                 Intent(activity, DetailFoodActivity::class.java)
                     .putExtra(DetailFoodActivity.EXTRA_DATA, data)

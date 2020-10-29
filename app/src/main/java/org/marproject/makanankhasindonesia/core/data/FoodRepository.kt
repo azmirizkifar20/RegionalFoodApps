@@ -1,11 +1,14 @@
 package org.marproject.makanankhasindonesia.core.data
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import org.marproject.makanankhasindonesia.core.data.source.local.LocalDataSource
 import org.marproject.makanankhasindonesia.core.data.source.local.entity.FoodEntity
 import org.marproject.makanankhasindonesia.core.data.source.remote.RemoteDataSource
 import org.marproject.makanankhasindonesia.core.data.source.remote.network.ApiResponse
 import org.marproject.makanankhasindonesia.core.data.source.remote.response.FoodResponse
+import org.marproject.makanankhasindonesia.core.domain.model.Food
+import org.marproject.makanankhasindonesia.core.domain.repository.IFoodRepository
 import org.marproject.makanankhasindonesia.core.utils.AppExecutors
 import org.marproject.makanankhasindonesia.core.utils.DataMapper
 
@@ -13,7 +16,7 @@ class FoodRepository private constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors
-) {
+) : IFoodRepository {
 
     companion object {
         @Volatile
@@ -29,13 +32,15 @@ class FoodRepository private constructor(
             }
     }
 
-    fun getAllFood(): LiveData<Resource<List<FoodEntity>>> =
-        object : NetworkBoundResource<List<FoodEntity>, List<FoodResponse>>(appExecutors) {
-            override fun loadFromDB(): LiveData<List<FoodEntity>> {
-                return localDataSource.getAllFood()
+    override fun getAllFood(): LiveData<Resource<List<Food>>> =
+        object : NetworkBoundResource<List<Food>, List<FoodResponse>>(appExecutors) {
+            override fun loadFromDB(): LiveData<List<Food>> {
+                return Transformations.map(localDataSource.getAllFood()) {
+                    DataMapper.mapEntitiesToDomain(it)
+                }
             }
 
-            override fun shouldFetch(data: List<FoodEntity>?): Boolean =
+            override fun shouldFetch(data: List<Food>?): Boolean =
                 data == null || data.isEmpty()
 
             override fun createCall(): LiveData<ApiResponse<List<FoodResponse>>> =
@@ -45,14 +50,16 @@ class FoodRepository private constructor(
                 val foodList = DataMapper.mapResponseToEntities(data)
                 localDataSource.insertFood(foodList)
             }
-
         }.asLiveData()
 
-    fun getFavoriteFood(): LiveData<List<FoodEntity>> {
-        return localDataSource.getFavoriteFood()
+    override fun getFavoriteFood(): LiveData<List<Food>> {
+        return Transformations.map(localDataSource.getFavoriteFood()) {
+            DataMapper.mapEntitiesToDomain(it)
+        }
     }
 
-    fun setFavoriteFood(food: FoodEntity, state: Boolean) {
-        appExecutors.diskIO().execute { localDataSource.setFavoriteFood(food, state) }
+    override fun setFavoriteFood(food: Food, state: Boolean) {
+        val foodEntity = DataMapper.mapDomainToEntity(food)
+        appExecutors.diskIO().execute { localDataSource.setFavoriteFood(foodEntity, state) }
     }
 }

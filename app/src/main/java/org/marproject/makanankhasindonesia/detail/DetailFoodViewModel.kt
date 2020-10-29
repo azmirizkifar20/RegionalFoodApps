@@ -1,9 +1,9 @@
 package org.marproject.makanankhasindonesia.detail
 
 import androidx.lifecycle.ViewModel
-import org.marproject.makanankhasindonesia.core.data.FoodRepository
-import org.marproject.makanankhasindonesia.core.data.source.local.entity.FoodEntity
+import org.marproject.makanankhasindonesia.core.domain.model.Food
+import org.marproject.makanankhasindonesia.core.domain.usecase.FoodUseCase
 
-class DetailFoodViewModel(private val foodRepository: FoodRepository) : ViewModel() {
-    fun setFavoriteFood(food: FoodEntity, status: Boolean) = foodRepository.setFavoriteFood(food, status)
+class DetailFoodViewModel(private val foodUseCase: FoodUseCase) : ViewModel() {
+    fun setFavoriteFood(food: Food, status: Boolean) = foodUseCase.setFavoriteFood(food, status)
 }
