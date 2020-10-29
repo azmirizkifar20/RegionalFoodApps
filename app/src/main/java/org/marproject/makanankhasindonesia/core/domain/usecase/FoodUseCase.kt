@@ -1,11 +1,11 @@
 package org.marproject.makanankhasindonesia.core.domain.usecase
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 import org.marproject.makanankhasindonesia.core.data.Resource
 import org.marproject.makanankhasindonesia.core.domain.model.Food
 
 interface FoodUseCase {
-    fun getAllFood(): LiveData<Resource<List<Food>>>
-    fun getFavoriteFood(): LiveData<List<Food>>
+    fun getAllFood(): Flow<Resource<List<Food>>>
+    fun getFavoriteFood(): Flow<List<Food>>
     fun setFavoriteFood(food: Food, state: Boolean)
 }

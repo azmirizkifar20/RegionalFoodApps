@@ -21,6 +21,8 @@ buildscript {
     ext.chip_navbar_version = "1.3.4"
     ext.retrofit_version = "2.9.0"
     ext.logging_interceptor_version = "4.8.0"
+    ext.kotlin_coroutines_version = "1.3.7"
+    ext.lifecycle_version = "2.2.0"
 
     repositories {
         google()

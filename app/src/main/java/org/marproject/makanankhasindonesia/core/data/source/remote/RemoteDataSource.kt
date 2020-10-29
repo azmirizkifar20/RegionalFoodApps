@@ -1,15 +1,13 @@
 package org.marproject.makanankhasindonesia.core.data.source.remote
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import org.marproject.makanankhasindonesia.core.data.source.remote.network.ApiResponse
 import org.marproject.makanankhasindonesia.core.data.source.remote.network.ApiService
 import org.marproject.makanankhasindonesia.core.data.source.remote.response.FoodResponse
-import org.marproject.makanankhasindonesia.core.data.source.remote.response.ListFoodResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RemoteDataSource private constructor(private val apiService: ApiService) {
     companion object {
@@ -22,28 +20,21 @@ class RemoteDataSource private constructor(private val apiService: ApiService) {
             }
     }
 
-    fun getAllFood(): LiveData<ApiResponse<List<FoodResponse>>> {
-        val resultData = MutableLiveData<ApiResponse<List<FoodResponse>>>()
+    suspend fun getAllFood(): Flow<ApiResponse<List<FoodResponse>>> {
+        return flow {
+            try {
+                val response = apiService.getList()
+                val dataArray = response.data
 
-        // get data from remote api
-        val client = apiService.getList()
+                if (dataArray.isNotEmpty())
+                    emit(ApiResponse.Success(response.data))
+                 else
+                    emit(ApiResponse.Empty)
 
-        client.enqueue(object : Callback<ListFoodResponse> {
-            override fun onResponse(
-                call: Call<ListFoodResponse>,
-                response: Response<ListFoodResponse>
-            ) {
-                val dataArray = response.body()?.data
-                resultData.value = if (dataArray != null) ApiResponse.Success(dataArray) else ApiResponse.Empty
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("RemoteDataSource", e.toString())
             }
-
-            override fun onFailure(call: Call<ListFoodResponse>, t: Throwable) {
-                resultData.value = ApiResponse.Error(t.message.toString())
-                Log.e("RemoteDataSource", t.message.toString())
-            }
-
-        })
-
-        return resultData
+        }.flowOn(Dispatchers.IO)
     }
 }

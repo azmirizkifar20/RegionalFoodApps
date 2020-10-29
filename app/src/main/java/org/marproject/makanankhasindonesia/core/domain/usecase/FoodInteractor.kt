@@ -1,6 +1,6 @@
 package org.marproject.makanankhasindonesia.core.domain.usecase
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 import org.marproject.makanankhasindonesia.core.data.FoodRepository
 import org.marproject.makanankhasindonesia.core.data.Resource
 import org.marproject.makanankhasindonesia.core.domain.model.Food
@@ -8,9 +8,9 @@ import org.marproject.makanankhasindonesia.core.domain.model.Food
 class FoodInteractor(
     private val foodRepository: FoodRepository
 ) : FoodUseCase {
-    override fun getAllFood(): LiveData<Resource<List<Food>>> = foodRepository.getAllFood()
+    override fun getAllFood(): Flow<Resource<List<Food>>> = foodRepository.getAllFood()
 
-    override fun getFavoriteFood(): LiveData<List<Food>> = foodRepository.getFavoriteFood()
+    override fun getFavoriteFood(): Flow<List<Food>> = foodRepository.getFavoriteFood()
 
     override fun setFavoriteFood(food: Food, state: Boolean) = foodRepository.setFavoriteFood(food, state)
 }

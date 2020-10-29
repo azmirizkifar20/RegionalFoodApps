@@ -1,9 +1,8 @@
 package org.marproject.makanankhasindonesia.core.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import org.marproject.makanankhasindonesia.core.data.source.local.LocalDataSource
-import org.marproject.makanankhasindonesia.core.data.source.local.entity.FoodEntity
 import org.marproject.makanankhasindonesia.core.data.source.remote.RemoteDataSource
 import org.marproject.makanankhasindonesia.core.data.source.remote.network.ApiResponse
 import org.marproject.makanankhasindonesia.core.data.source.remote.response.FoodResponse
@@ -32,30 +31,26 @@ class FoodRepository private constructor(
             }
     }
 
-    override fun getAllFood(): LiveData<Resource<List<Food>>> =
+    override fun getAllFood(): Flow<Resource<List<Food>>> =
         object : NetworkBoundResource<List<Food>, List<FoodResponse>>(appExecutors) {
-            override fun loadFromDB(): LiveData<List<Food>> {
-                return Transformations.map(localDataSource.getAllFood()) {
-                    DataMapper.mapEntitiesToDomain(it)
-                }
+            override fun loadFromDB(): Flow<List<Food>> {
+                return localDataSource.getAllFood().map { DataMapper.mapEntitiesToDomain(it) }
             }
 
             override fun shouldFetch(data: List<Food>?): Boolean =
                 data == null || data.isEmpty()
 
-            override fun createCall(): LiveData<ApiResponse<List<FoodResponse>>> =
+            override suspend fun createCall(): Flow<ApiResponse<List<FoodResponse>>> =
                 remoteDataSource.getAllFood()
 
-            override fun saveCallResult(data: List<FoodResponse>) {
+            override suspend fun saveCallResult(data: List<FoodResponse>) {
                 val foodList = DataMapper.mapResponseToEntities(data)
                 localDataSource.insertFood(foodList)
             }
-        }.asLiveData()
+        }.asFlow()
 
-    override fun getFavoriteFood(): LiveData<List<Food>> {
-        return Transformations.map(localDataSource.getFavoriteFood()) {
-            DataMapper.mapEntitiesToDomain(it)
-        }
+    override fun getFavoriteFood(): Flow<List<Food>> {
+        return localDataSource.getFavoriteFood().map { DataMapper.mapEntitiesToDomain(it) }
     }
 
     override fun setFavoriteFood(food: Food, state: Boolean) {
