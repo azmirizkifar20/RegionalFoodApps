@@ -6,16 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_food.view.*
 import kotlinx.android.synthetic.main.view_error.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import org.marproject.makanankhasindonesia.R
 import org.marproject.makanankhasindonesia.core.data.Resource
 import org.marproject.makanankhasindonesia.core.domain.model.Food
-import org.marproject.makanankhasindonesia.core.ui.ViewModelFactory
 import org.marproject.makanankhasindonesia.core.ui.adapter.AdapterCallback
 import org.marproject.makanankhasindonesia.core.ui.adapter.AdapterUtils
 import org.marproject.makanankhasindonesia.databinding.FragmentHomeBinding
@@ -24,7 +23,7 @@ import org.marproject.makanankhasindonesia.detail.DetailFoodActivity
 class HomeFragment : Fragment() {
 
     // init view model & binding
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by viewModel()
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -36,10 +35,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
-        // setup view model
-        val factory = ViewModelFactory.getInstance(requireActivity())
-        viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
         // init adapter
         adapter = AdapterUtils(requireContext())

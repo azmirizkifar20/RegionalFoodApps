@@ -6,14 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_favorite.*
 import kotlinx.android.synthetic.main.item_favorite.view.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import org.marproject.makanankhasindonesia.R
 import org.marproject.makanankhasindonesia.core.domain.model.Food
-import org.marproject.makanankhasindonesia.core.ui.ViewModelFactory
 import org.marproject.makanankhasindonesia.core.ui.adapter.AdapterCallback
 import org.marproject.makanankhasindonesia.core.ui.adapter.AdapterUtils
 import org.marproject.makanankhasindonesia.databinding.FragmentFavoriteBinding
@@ -22,7 +21,7 @@ import org.marproject.makanankhasindonesia.detail.DetailFoodActivity
 class FavoriteFragment : Fragment() {
 
     // init view model & binding
-    private lateinit var viewModel: FavoriteViewModel
+    private val viewModel: FavoriteViewModel by viewModel()
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
 
@@ -34,10 +33,6 @@ class FavoriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-
-        // setup viewModel
-        val factory = ViewModelFactory.getInstance(requireActivity())
-        viewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
 
         // init adapter
         adapter = AdapterUtils(requireContext())

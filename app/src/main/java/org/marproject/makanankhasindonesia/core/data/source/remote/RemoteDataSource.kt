@@ -9,16 +9,7 @@ import org.marproject.makanankhasindonesia.core.data.source.remote.network.ApiRe
 import org.marproject.makanankhasindonesia.core.data.source.remote.network.ApiService
 import org.marproject.makanankhasindonesia.core.data.source.remote.response.FoodResponse
 
-class RemoteDataSource private constructor(private val apiService: ApiService) {
-    companion object {
-        @Volatile
-        private var instance: RemoteDataSource? = null
-
-        fun getInstance(service: ApiService): RemoteDataSource =
-            instance ?: synchronized(this) {
-                instance ?: RemoteDataSource(service)
-            }
-    }
+class RemoteDataSource(private val apiService: ApiService) {
 
     suspend fun getAllFood(): Flow<ApiResponse<List<FoodResponse>>> {
         return flow {

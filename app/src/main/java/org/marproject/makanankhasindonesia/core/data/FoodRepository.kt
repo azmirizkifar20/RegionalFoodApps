@@ -11,25 +11,11 @@ import org.marproject.makanankhasindonesia.core.domain.repository.IFoodRepositor
 import org.marproject.makanankhasindonesia.core.utils.AppExecutors
 import org.marproject.makanankhasindonesia.core.utils.DataMapper
 
-class FoodRepository private constructor(
+class FoodRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors
 ) : IFoodRepository {
-
-    companion object {
-        @Volatile
-        private var instance: FoodRepository? = null
-
-        fun getInstance(
-            remoteData: RemoteDataSource,
-            localData: LocalDataSource,
-            appExecutors: AppExecutors
-        ): FoodRepository =
-            instance ?: synchronized(this) {
-                instance ?: FoodRepository(remoteData, localData, appExecutors)
-            }
-    }
 
     override fun getAllFood(): Flow<Resource<List<Food>>> =
         object : NetworkBoundResource<List<Food>, List<FoodResponse>>(appExecutors) {
