@@ -3,7 +3,6 @@ package org.marproject.makanankhasindonesia.core.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import org.marproject.makanankhasindonesia.core.data.FoodRepository
 import org.marproject.makanankhasindonesia.core.di.Injection
 import org.marproject.makanankhasindonesia.core.domain.usecase.FoodUseCase
 import org.marproject.makanankhasindonesia.detail.DetailFoodViewModel

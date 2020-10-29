@@ -1,15 +1,15 @@
 package org.marproject.makanankhasindonesia.core.data.source.remote
 
+import android.annotation.SuppressLint
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import org.marproject.makanankhasindonesia.core.data.source.remote.network.ApiResponse
 import org.marproject.makanankhasindonesia.core.data.source.remote.network.ApiService
 import org.marproject.makanankhasindonesia.core.data.source.remote.response.FoodResponse
-import org.marproject.makanankhasindonesia.core.data.source.remote.response.ListFoodResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RemoteDataSource private constructor(private val apiService: ApiService) {
     companion object {
@@ -22,28 +22,24 @@ class RemoteDataSource private constructor(private val apiService: ApiService) {
             }
     }
 
-    fun getAllFood(): LiveData<ApiResponse<List<FoodResponse>>> {
-        val resultData = MutableLiveData<ApiResponse<List<FoodResponse>>>()
+    @SuppressLint("CheckResult")
+    fun getAllFood(): Flowable<ApiResponse<List<FoodResponse>>> {
+        val resultData = PublishSubject.create<ApiResponse<List<FoodResponse>>>()
 
         // get data from remote api
         val client = apiService.getList()
 
-        client.enqueue(object : Callback<ListFoodResponse> {
-            override fun onResponse(
-                call: Call<ListFoodResponse>,
-                response: Response<ListFoodResponse>
-            ) {
-                val dataArray = response.body()?.data
-                resultData.value = if (dataArray != null) ApiResponse.Success(dataArray) else ApiResponse.Empty
-            }
+        client.subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .take(1)
+            .subscribe({ response ->
+                val dataArray = response.data
+                resultData.onNext(if (dataArray.isNotEmpty()) ApiResponse.Success(dataArray) else ApiResponse.Empty)
+            }, { error ->
+                resultData.onNext(ApiResponse.Error(error.message.toString()))
+                Log.e("RemoteDataSource", error.toString())
+            })
 
-            override fun onFailure(call: Call<ListFoodResponse>, t: Throwable) {
-                resultData.value = ApiResponse.Error(t.message.toString())
-                Log.e("RemoteDataSource", t.message.toString())
-            }
-
-        })
-
-        return resultData
+        return resultData.toFlowable(BackpressureStrategy.BUFFER)
     }
 }

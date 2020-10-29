@@ -1,6 +1,7 @@
 package org.marproject.makanankhasindonesia.core.data.source.local
 
 import androidx.lifecycle.LiveData
+import io.reactivex.Flowable
 import org.marproject.makanankhasindonesia.core.data.source.local.entity.FoodEntity
 import org.marproject.makanankhasindonesia.core.data.source.local.room.FoodDao
 
@@ -15,9 +16,9 @@ class LocalDataSource private constructor(private val foodDao: FoodDao) {
             }
     }
 
-    fun getAllFood(): LiveData<List<FoodEntity>> = foodDao.getAllFood()
+    fun getAllFood(): Flowable<List<FoodEntity>> = foodDao.getAllFood()
 
-    fun getFavoriteFood(): LiveData<List<FoodEntity>> = foodDao.getFavoriteFood()
+    fun getFavoriteFood(): Flowable<List<FoodEntity>> = foodDao.getFavoriteFood()
 
     fun insertFood(food: List<FoodEntity>) = foodDao.insertFood(food)
 

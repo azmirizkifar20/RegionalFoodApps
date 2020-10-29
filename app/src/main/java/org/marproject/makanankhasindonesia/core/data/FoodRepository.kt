@@ -1,9 +1,9 @@
 package org.marproject.makanankhasindonesia.core.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import io.reactivex.Flowable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.marproject.makanankhasindonesia.core.data.source.local.LocalDataSource
-import org.marproject.makanankhasindonesia.core.data.source.local.entity.FoodEntity
 import org.marproject.makanankhasindonesia.core.data.source.remote.RemoteDataSource
 import org.marproject.makanankhasindonesia.core.data.source.remote.network.ApiResponse
 import org.marproject.makanankhasindonesia.core.data.source.remote.response.FoodResponse
@@ -32,30 +32,30 @@ class FoodRepository private constructor(
             }
     }
 
-    override fun getAllFood(): LiveData<Resource<List<Food>>> =
-        object : NetworkBoundResource<List<Food>, List<FoodResponse>>(appExecutors) {
-            override fun loadFromDB(): LiveData<List<Food>> {
-                return Transformations.map(localDataSource.getAllFood()) {
-                    DataMapper.mapEntitiesToDomain(it)
-                }
+    override fun getAllFood(): Flowable<Resource<List<Food>>> =
+        object : NetworkBoundResource<List<Food>, List<FoodResponse>>() {
+            override fun loadFromDB(): Flowable<List<Food>> {
+                return localDataSource.getAllFood().map { DataMapper.mapEntitiesToDomain(it) }
             }
 
             override fun shouldFetch(data: List<Food>?): Boolean =
                 data == null || data.isEmpty()
 
-            override fun createCall(): LiveData<ApiResponse<List<FoodResponse>>> =
+            override fun createCall(): Flowable<ApiResponse<List<FoodResponse>>> =
                 remoteDataSource.getAllFood()
 
             override fun saveCallResult(data: List<FoodResponse>) {
                 val foodList = DataMapper.mapResponseToEntities(data)
                 localDataSource.insertFood(foodList)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe()
             }
-        }.asLiveData()
 
-    override fun getFavoriteFood(): LiveData<List<Food>> {
-        return Transformations.map(localDataSource.getFavoriteFood()) {
-            DataMapper.mapEntitiesToDomain(it)
-        }
+        }.asFlowable()
+
+    override fun getFavoriteFood(): Flowable<List<Food>> {
+        return localDataSource.getFavoriteFood().map { DataMapper.mapEntitiesToDomain(it) }
     }
 
     override fun setFavoriteFood(food: Food, state: Boolean) {
