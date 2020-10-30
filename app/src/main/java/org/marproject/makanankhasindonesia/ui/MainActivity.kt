@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
             when (id) {
                 R.id.home_menu -> fragmentCheck(R.id.home_menu, HomeFragment())
                 R.id.search_menu -> fragmentCheck(R.id.search_menu, SearchFragment())
-                R.id.favorites_menu -> fragmentCheck(R.id.favorites_menu, FavoriteFragment())
                 R.id.profile_menu -> fragmentCheck(R.id.profile_menu, ProfileFragment())
             }
 

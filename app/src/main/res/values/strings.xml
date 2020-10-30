@@ -12,4 +12,12 @@
     <string name="profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="intro">Hello, my name is Muhamad Azmi Rizkifar. I am currently a software engineering student at Telkom University</string>
+    <string name="email">m.azmirizkifar20@gmail.com</string>
+    <string name="name">Muhamad Azmi Rizkifar</string>
+    <string name="favorite_food">Favorite food</string>
+    <string name="made_with">Made with love</string>
+    <string name="by_azmirf20">by azmirf20</string>
+    <string name="app_description">Local food catalog in Indonesia. ranging from desserts, heavy meals, and other unique foods.</string>
 </resources>

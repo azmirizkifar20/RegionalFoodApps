@@ -8,9 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="home">#1194AA</color>
-    <color name="home_dark">#136E7E</color>
-    <color name="favorite">#C9379D</color>
-    <color name="search">#E6A919</color>
-    <color name="profile">#5B37B7</color>
+    <color name="color_primary">#1194AA</color>
+    <color name="color_primary_dark">#136E7E</color>
+    <color name="dark">#353535</color>
+    <color name="light">#EFEFEF</color>
+    <color name="grey">#C8C8C8</color>
+    <color name="dark_grey">#6E6E6E</color>
+    <color name="button">#2EC1DA</color>
 </resources>
