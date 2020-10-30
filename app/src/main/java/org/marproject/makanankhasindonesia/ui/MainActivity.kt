@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import org.marproject.makanankhasindonesia.R
 import org.marproject.makanankhasindonesia.databinding.ActivityMainBinding
-import org.marproject.makanankhasindonesia.ui.favorite.FavoriteFragment
 import org.marproject.makanankhasindonesia.ui.home.HomeFragment
 import org.marproject.makanankhasindonesia.ui.profile.ProfileFragment
 import org.marproject.makanankhasindonesia.ui.search.SearchFragment
@@ -41,9 +40,9 @@ class MainActivity : AppCompatActivity() {
     private val onItemSelectedListener = object : ChipNavigationBar.OnItemSelectedListener {
         override fun onItemSelected(id: Int) {
             val fragmentCheck = fun(fragmentId: Int, fragment: Fragment) {
-                if (currentId != fragmentId) {
+                if (currentId != fragmentId)
                     supportFragmentManager.beginTransaction().replace(R.id.home_frame, fragment).commit()
-                }
+
             }
 
             when (id) {

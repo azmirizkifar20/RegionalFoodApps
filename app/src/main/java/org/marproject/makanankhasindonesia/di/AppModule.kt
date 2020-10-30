@@ -5,8 +5,8 @@ import org.koin.dsl.module
 import org.marproject.makanankhasindonesia.core.domain.usecase.FoodInteractor
 import org.marproject.makanankhasindonesia.core.domain.usecase.FoodUseCase
 import org.marproject.makanankhasindonesia.ui.detail.DetailFoodViewModel
-import org.marproject.makanankhasindonesia.ui.favorite.FavoriteViewModel
 import org.marproject.makanankhasindonesia.ui.home.HomeViewModel
+import org.marproject.makanankhasindonesia.ui.search.SearchViewModel
 
 val useCaseModule = module {
     factory<FoodUseCase> { FoodInteractor(get()) }
@@ -14,6 +14,6 @@ val useCaseModule = module {
 
 val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
-    viewModel { FavoriteViewModel(get()) }
+    viewModel { SearchViewModel(get()) }
     viewModel { DetailFoodViewModel(get()) }
 }

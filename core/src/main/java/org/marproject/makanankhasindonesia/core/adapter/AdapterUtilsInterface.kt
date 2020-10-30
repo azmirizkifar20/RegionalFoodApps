@@ -6,6 +6,9 @@ interface AdapterUtilsInterface<T> {
     // set layout
     fun setLayout(layout: Int): AdapterUtils<T>
 
+    // filterable
+    fun filterable(): AdapterUtils<T>
+
     // append data
     fun addData(items: List<T>): AdapterUtils<T>
 
@@ -22,5 +25,4 @@ interface AdapterUtilsInterface<T> {
 
     // build recyclerview
     fun build(recyclerView: RecyclerView): AdapterUtils<T>
-
 }

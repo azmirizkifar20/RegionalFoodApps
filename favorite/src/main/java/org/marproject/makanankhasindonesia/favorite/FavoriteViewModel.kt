@@ -1,4 +1,4 @@
-package org.marproject.makanankhasindonesia.ui.favorite
+package org.marproject.makanankhasindonesia.favorite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData

@@ -1,14 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
     <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center_horizontal"
+        android:text="@string/search_header"
+        android:textColor="@color/dark"
+        android:textSize="18sp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_search"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/text"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="12dp"
+        android:hint="@string/search_food"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="25dp"
+        app:boxCornerRadiusBottomStart="25dp"
+        app:boxCornerRadiusTopEnd="25dp"
+        app:boxCornerRadiusTopStart="25dp"
+        app:boxStrokeColor="@color/color_primary"
+        app:boxStrokeWidth="0.5dp"
+        app:endIconMode="clear_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_search_food"
+            android:textSize="14sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_food"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/search" />
+        android:layout_below="@+id/layout_search"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:listitem="@layout/item_food" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 </RelativeLayout>

@@ -1,7 +1,6 @@
 package org.marproject.makanankhasindonesia.core.data.source.remote.network
 
 import org.marproject.makanankhasindonesia.core.data.source.remote.response.ListFoodResponse
-import retrofit2.Call
 import retrofit2.http.GET
 
 interface ApiService {

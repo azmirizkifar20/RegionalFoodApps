@@ -20,4 +20,6 @@
     <string name="made_with">Made with love</string>
     <string name="by_azmirf20">by azmirf20</string>
     <string name="app_description">Local food catalog in Indonesia. ranging from desserts, heavy meals, and other unique foods.</string>
+    <string name="search_header">Mau cari apa?</string>
+    <string name="search_food">Cari makanan</string>
 </resources>

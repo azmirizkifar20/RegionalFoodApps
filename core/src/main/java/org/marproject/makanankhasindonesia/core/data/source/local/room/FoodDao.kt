@@ -6,7 +6,6 @@ import org.marproject.makanankhasindonesia.core.data.source.local.entity.FoodEnt
 
 @Dao
 interface FoodDao {
-
     @Query("SELECT * FROM foods")
     fun getAllFood(): Flow<List<FoodEntity>>
 
