@@ -1,6 +1,8 @@
 package org.marproject.makanankhasindonesia.core.di
 
 import androidx.room.Room
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -19,11 +21,15 @@ val databaseModule = module {
     factory { get<FoodDatabase>().foodDao() }
 
     single {
+        val passphrase: ByteArray = SQLiteDatabase.getBytes("marproject".toCharArray())
+        val factory = SupportFactory(passphrase)
         Room.databaseBuilder(
             androidContext(),
             FoodDatabase::class.java,
             "Food.db"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration()
+            .openHelperFactory(factory)
+            .build()
     }
 }
 
