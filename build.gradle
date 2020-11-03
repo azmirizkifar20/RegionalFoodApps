@@ -24,6 +24,7 @@ buildscript {
     ext.kotlin_coroutines_version = "1.4.0"
     ext.lifecycle_version = "2.2.0"
     ext.koin_version = "2.1.6"
+    ext.leak_canary_version = "2.4"
 
     repositories {
         google()

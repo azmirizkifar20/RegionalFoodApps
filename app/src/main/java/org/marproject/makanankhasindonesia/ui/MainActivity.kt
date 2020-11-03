@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.search_menu -> fragmentCheck(R.id.search_menu, SearchFragment())
                 R.id.profile_menu -> fragmentCheck(R.id.profile_menu, ProfileFragment())
                 R.id.favorite_menu -> {
-                    val uri = Uri.parse(FAVORITE_URI)
+                    val uri = Uri.parse("makanankhasindonesia://favorite")
                     startActivity(Intent(Intent.ACTION_VIEW, uri))
                     finish()
                 }
@@ -62,7 +62,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    companion object {
-        const val FAVORITE_URI = "makanankhasindonesia://favorite"
-    }
 }

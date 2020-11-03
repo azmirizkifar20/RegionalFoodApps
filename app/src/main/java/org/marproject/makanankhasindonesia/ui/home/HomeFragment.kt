@@ -22,7 +22,6 @@ import org.marproject.makanankhasindonesia.core.adapter.AdapterUtils
 import org.marproject.makanankhasindonesia.core.data.Resource
 import org.marproject.makanankhasindonesia.core.domain.model.Food
 import org.marproject.makanankhasindonesia.databinding.FragmentHomeBinding
-import org.marproject.makanankhasindonesia.ui.MainActivity.Companion.FAVORITE_URI
 import org.marproject.makanankhasindonesia.ui.detail.DetailFoodActivity
 
 class HomeFragment : Fragment() {
@@ -106,7 +105,12 @@ class HomeFragment : Fragment() {
         drawable = menu.getItem(0).icon
 
         // set icon color
-        binding.appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+        binding.appBar.addOnOffsetChangedListener(offsetListener)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private val offsetListener =
+        AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             var scrollRange = -1
             if (scrollRange == -1)
                 scrollRange = appBarLayout.totalScrollRange
@@ -122,13 +126,11 @@ class HomeFragment : Fragment() {
                     PorterDuff.Mode.SRC_ATOP)
 
             }
-        })
-        super.onCreateOptionsMenu(menu, inflater)
-    }
+        }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.item_favorite -> {
-            val uri = Uri.parse(FAVORITE_URI)
+            val uri = Uri.parse("makanankhasindonesia://favorite")
             startActivity(Intent(Intent.ACTION_VIEW, uri))
             requireActivity().finish()
             true
@@ -138,6 +140,7 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.appBar.removeOnOffsetChangedListener(offsetListener)
         _binding = null
     }
 

@@ -83,13 +83,18 @@ class FavoriteActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         startActivity(Intent(this, MainActivity::class.java))
-        finish()
+        this.finishAfterTransition()
         return true
     }
 
     override fun onBackPressed() {
         startActivity(Intent(this, MainActivity::class.java))
-        finish()
+        this.finishAfterTransition()
         super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        finish()
+        super.onDestroy()
     }
 }
