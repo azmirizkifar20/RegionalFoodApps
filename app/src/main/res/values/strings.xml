@@ -3,20 +3,16 @@
     <string name="image_description">Image food</string>
     <string name="text_primary">Sample of title text</string>
     <string name="text_subtitle">Sample of subtitle text</string>
-
     <string name="no_data">Empty data</string>
     <string name="something_wrong">Oops.. something went wrong</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
-    <string name="favorites">Favorites</string>
+    <string name="favorites">Favorite</string>
     <string name="profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_favorite">Favorite</string>
     <string name="intro">Hello, my name is Muhamad Azmi Rizkifar. I am currently a software engineering student at Telkom University</string>
     <string name="email">m.azmirizkifar20@gmail.com</string>
     <string name="name">Muhamad Azmi Rizkifar</string>
-    <string name="favorite_food">Favorite food</string>
     <string name="made_with">Made with love</string>
     <string name="by_azmirf20">by azmirf20</string>
     <string name="app_description">Local food catalog in Indonesia. ranging from desserts, heavy meals, and other unique foods.</string>
