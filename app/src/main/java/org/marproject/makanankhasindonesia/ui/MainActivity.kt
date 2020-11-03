@@ -1,5 +1,7 @@
 package org.marproject.makanankhasindonesia.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -42,17 +44,25 @@ class MainActivity : AppCompatActivity() {
             val fragmentCheck = fun(fragmentId: Int, fragment: Fragment) {
                 if (currentId != fragmentId)
                     supportFragmentManager.beginTransaction().replace(R.id.home_frame, fragment).commit()
-
             }
 
             when (id) {
                 R.id.home_menu -> fragmentCheck(R.id.home_menu, HomeFragment())
                 R.id.search_menu -> fragmentCheck(R.id.search_menu, SearchFragment())
                 R.id.profile_menu -> fragmentCheck(R.id.profile_menu, ProfileFragment())
+                R.id.favorite_menu -> {
+                    val uri = Uri.parse(FAVORITE_URI)
+                    startActivity(Intent(Intent.ACTION_VIEW, uri))
+                    finish()
+                }
             }
 
             currentId = id
         }
 
+    }
+
+    companion object {
+        const val FAVORITE_URI = "makanankhasindonesia://favorite"
     }
 }

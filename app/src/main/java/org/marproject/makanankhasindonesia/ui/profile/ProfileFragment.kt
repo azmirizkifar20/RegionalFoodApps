@@ -32,20 +32,9 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.btnFavorite.setOnClickListener {
-            val uri = Uri.parse(FAVORITE_URI)
-            startActivity(Intent(Intent.ACTION_VIEW, uri))
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    companion object {
-        private const val FAVORITE_URI = "makanankhasindonesia://favorite"
-    }
 }

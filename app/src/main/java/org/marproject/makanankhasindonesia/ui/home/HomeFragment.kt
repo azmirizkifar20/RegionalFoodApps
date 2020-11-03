@@ -1,23 +1,28 @@
 package org.marproject.makanankhasindonesia.ui.home
 
 import android.content.Intent
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_food.view.*
 import kotlinx.android.synthetic.main.view_error.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.marproject.makanankhasindonesia.R
-import org.marproject.makanankhasindonesia.core.data.Resource
-import org.marproject.makanankhasindonesia.core.domain.model.Food
 import org.marproject.makanankhasindonesia.core.adapter.AdapterCallback
 import org.marproject.makanankhasindonesia.core.adapter.AdapterUtils
+import org.marproject.makanankhasindonesia.core.data.Resource
+import org.marproject.makanankhasindonesia.core.domain.model.Food
 import org.marproject.makanankhasindonesia.databinding.FragmentHomeBinding
+import org.marproject.makanankhasindonesia.ui.MainActivity.Companion.FAVORITE_URI
 import org.marproject.makanankhasindonesia.ui.detail.DetailFoodActivity
 
 class HomeFragment : Fragment() {
@@ -28,6 +33,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     // adapter
+    private lateinit var drawable: Drawable
     private lateinit var adapter: AdapterUtils<Food>
 
     override fun onCreateView(
@@ -35,6 +41,15 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        // set action bar
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = getString(R.string.app_name)
+        }
+
+        // Set Option Menu
+        setHasOptionsMenu(true)
 
         // init adapter
         adapter = AdapterUtils(requireContext())
@@ -45,7 +60,7 @@ class HomeFragment : Fragment() {
         viewModel.food.observe(viewLifecycleOwner, {
             if (it != null) {
                 when (it) {
-                    is Resource.Loading ->  binding.progressBar.visibility = View.VISIBLE
+                    is Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
                     is Resource.Success -> {
                         binding.progressBar.visibility = View.GONE
                         it.data?.let { it1 -> adapter.addData(it1) }
@@ -86,9 +101,45 @@ class HomeFragment : Fragment() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.action_menu_favorite, menu)
+        drawable = menu.getItem(0).icon
+
+        // set icon color
+        binding.appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            var scrollRange = -1
+            if (scrollRange == -1)
+                scrollRange = appBarLayout.totalScrollRange
+
+            if (scrollRange + verticalOffset == 0) {
+                drawable.setColorFilter(
+                    ContextCompat.getColor(requireContext(), android.R.color.white),
+                    PorterDuff.Mode.SRC_ATOP
+                )
+            } else {
+                drawable.setColorFilter(
+                    ContextCompat.getColor(requireContext(), R.color.color_primary),
+                    PorterDuff.Mode.SRC_ATOP)
+
+            }
+        })
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.item_favorite -> {
+            val uri = Uri.parse(FAVORITE_URI)
+            startActivity(Intent(Intent.ACTION_VIEW, uri))
+            requireActivity().finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }
 

@@ -1,10 +1,9 @@
 package org.marproject.makanankhasindonesia.favorite
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_favorite.*
@@ -15,6 +14,7 @@ import org.marproject.makanankhasindonesia.core.adapter.AdapterCallback
 import org.marproject.makanankhasindonesia.core.adapter.AdapterUtils
 import org.marproject.makanankhasindonesia.core.domain.model.Food
 import org.marproject.makanankhasindonesia.favorite.databinding.ActivityFavoriteBinding
+import org.marproject.makanankhasindonesia.ui.MainActivity
 import org.marproject.makanankhasindonesia.ui.detail.DetailFoodActivity
 
 class FavoriteActivity : AppCompatActivity() {
@@ -48,7 +48,6 @@ class FavoriteActivity : AppCompatActivity() {
         setupAdapter(binding.rvFavorite)
 
         viewModel.favoriteFood.observe(this, {
-            Log.i("testing", it.toString())
             adapter.addData(it)
             view_empty.visibility = if (it.isNotEmpty()) View.GONE else View.VISIBLE
         })
@@ -83,7 +82,14 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
         return true
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+        super.onBackPressed()
     }
 }
