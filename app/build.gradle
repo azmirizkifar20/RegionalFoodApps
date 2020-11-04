@@ -48,4 +48,7 @@ dependencies {
 
     // chip navbar
     implementation "com.ismaeldivita.chipnavigation:chip-navigation-bar:$chip_navbar_version"
+
+    // shimmer
+    implementation "com.facebook.shimmer:shimmer:$shimmer_version"
 }
