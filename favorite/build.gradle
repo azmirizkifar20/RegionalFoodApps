@@ -30,8 +30,11 @@ android {
 
 dependencies {
     implementation project(":core")
+    implementation project(":app")
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation project(":app")
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // lottie
+    implementation "com.airbnb.android:lottie:$lottie_version"
 }
