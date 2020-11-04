@@ -5,20 +5,20 @@
         android:id="@+id/home_menu"
         android:icon="@drawable/ic_home"
         android:title="@string/home"
-        app:cnb_iconColor="@color/home"/>
+        app:cnb_iconColor="@color/color_primary"/>
     <item
         android:id="@+id/search_menu"
         android:icon="@drawable/ic_search"
         android:title="@string/search"
-        app:cnb_iconColor="@color/search"/>
-    <item
-        android:id="@+id/favorites_menu"
-        android:icon="@drawable/ic_favorite"
-        android:title="@string/favorites"
-        app:cnb_iconColor="@color/favorite" />
+        app:cnb_iconColor="@color/color_primary"/>
     <item
         android:id="@+id/profile_menu"
         android:icon="@drawable/ic_profile"
         android:title="@string/profile"
-        app:cnb_iconColor="@color/profile" />
+        app:cnb_iconColor="@color/color_primary" />
+    <item
+        android:id="@+id/favorite_menu"
+        android:icon="@drawable/ic_love"
+        android:title="@string/favorites"
+        app:cnb_iconColor="@color/color_primary" />
 </menu>
