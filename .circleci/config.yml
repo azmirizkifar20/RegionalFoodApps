@@ -2,6 +2,7 @@
      
     orbs:
       android: circleci/android@0.2.1
+      codecov: codecov/codecov@1.0.2
      
     jobs:
       build:
@@ -21,6 +22,8 @@
               paths:
                 - ~/.android/build-cache
                 - ~/.android/cache
+          - codecov/upload:
+              file: app/build/reports
           - run:
               name: Run Build
               command: ./gradlew build
