@@ -36,17 +36,18 @@ val databaseModule = module {
 
 val networkModule = module {
     single {
-//        val hostname = "firebasestorage.googleapis.com"
-//        val certificatePinner = CertificatePinner.Builder()
-//            .add(hostname, "sha256/ikLJDXn+JjUmyrM8hrQniBSqiWCnkbY7xXANNf/BbAQ=")
-//            .add(hostname, "sha256/5j6bIxVylmLBIeyADL48ObCTTKoClAUnc1Tp5nRLsqw=")
-//            .add(hostname, "sha256/7rlXmYCbZOgh8zbA0JD9hsUELldvDrUyH5gHQiSzJsU=")
-//            .build()
+        val hostname = "firebasestorage.googleapis.com"
+        val certificatePinner = CertificatePinner.Builder()
+            .add(hostname, "sha256/ikLJDXn+JjUmyrM8hrQniBSqiWCnkbY7xXANNf/BbAQ=")
+            .add(hostname, "sha256/5j6bIxVylmLBIeyADL48ObCTTKoClAUnc1Tp5nRLsqw=")
+            .add(hostname, "sha256/7rlXmYCbZOgh8zbA0JD9hsUELldvDrUyH5gHQiSzJsU=")
+            .build()
 
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
+            .certificatePinner(certificatePinner)
             .build()
     }
 
